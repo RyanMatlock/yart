@@ -17,29 +17,30 @@
 %
 % \iffalse
 %<*driver>
-\ProvidesFile{minimal.dtx}
+\ProvidesFile{yart.dtx}
 %</driver>
 %<package>\NeedsTeXFormat{LaTeX2e}[2005/12/01]
-%<package>\ProvidesPackage{minimal}
+%<package>\ProvidesPackage{yart}
 %<*package>
-    [2004/11/05 v1.0 .dtx minimal file]
+    [2020/01/31 v0.1 .dtx yart file]
 %</package>
 %
 %<*texfile>
 %%
 %%
-%% use \include{./path/to/minimal} to include the definitions and settings from
+%% use \include{./path/to/yart} to include the definitions and settings from
 %% this file
 %</texfile>
 %
 %<*driver>
 \documentclass{ltxdoc}
-\include{minimal}
+\include{yart}
+\usepackage{hyperref}
 \EnableCrossrefs
 \CodelineIndex
 \RecordChanges
 \begin{document}
-  \DocInput{minimal.dtx}
+  \DocInput{yart.dtx}
   \PrintChanges
   \PrintIndex
 \end{document}
@@ -65,22 +66,30 @@
 %   Right brace   \}     Tilde         \~}
 %
 %
-% \changes{v1.0}{2004/11/05}{Initial version}
+% \changes{v0.1}{2020/01/31}{Initial version}
 %
-% \GetFileInfo{minimal.dtx}
+% \GetFileInfo{yart.dtx}
 %
 % \DoNotIndex{\newcommand,\newenvironment}
 %
 %
-% \title{The \textsf{minimal} package\thanks{This document
-%   corresponds to \textsf{minimal}~\fileversion, dated \filedate.}}
-% \author{Scott Pakin \\ \texttt{scott+dtx@pakin.org}}
+% \title{%
+%   \texttt{yart.tex}: Yet Another R\'esum\'e Template
+%   \thanks{This document corresponds to \texttt{yart.tex}~\fileversion, dated
+%     \filedate.}
+% }
+% \author{%
+%   Ryan Matlock \\
+%   (GitHub: \href{https://github.com/RyanMatlock}{RyanMatlock})
+% }
 %
 % \maketitle
 %
 % \section{Introduction}
 %
 % Put text here.
+%
+% \subsection{Why a \texttt{.tex} file?}
 %
 % \section{Usage}
 %
