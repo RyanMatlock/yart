@@ -15,5 +15,6 @@
 *.toc
 *.out
 *.fls
+*.glo
 *.fdb_latexmk
 auto/
