@@ -1,0 +1,19 @@
+# binaries
+*.pdf
+
+# Emacs cruft
+*~
+[#]*[#]
+.\#*
+
+# LaTeX/latexmk cruft
+*.aux
+*.log
+*.synctex.gz
+*.idx
+*.dvi
+*.toc
+*.out
+*.fls
+*.fdb_latexmk
+auto/
