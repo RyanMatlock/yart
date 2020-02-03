@@ -34,9 +34,12 @@
 %
 %<*driver>
 \documentclass{ltxdoc}
+\usepackage[normalem]{ulem}
+\usepackage{verse}
 \include{yart}
-\usepackage{hyperref}
+\usepackage{hyperref} % load last when using verse package
 \newcommand\pkg[1]{\textsf{#1}}
+\pagestyle{plain} % override yart's pagestyle of empty
 \EnableCrossrefs
 \CodelineIndex
 \RecordChanges
@@ -90,57 +93,351 @@
 %
 % Put text here.
 %
-% \subsection{Why a \texttt{.tex} file?}
+% \subsection{Why a \texttt{.tex} file instead of a package?}
+% A package seems like overkill, especially for such a specific type of
+% document that you'll likely only need to make once and then update on
+% occasion. In my experience, a |.tex| file allows for easier inspection and
+% tweaking of the macros, and including it in a version-controlled directory of
+% your r\'esum\'e isn't a significant memory overhead to impose.
 %
 % \section{Usage}
 %
 % Put text here.
 %
-% \DescribeMacro{\dummyMacro}
-% This macro does nothing.\index{doing nothing|usage} It is merely an
-% example.  If this were a real macro, you would put a paragraph here
-% describing what the macro is supposed to do, what its mandatory and
-% optional arguments are, and so forth.
+% \DescribeMacro{\name}
+% \DescribeMacro{\namestyle}
+% This macro\ldots
 %
-% \DescribeEnv{dummyEnv}
-% This environment does nothing.  It is merely an example.
-% If this were a real environment, you would put a paragraph here
-% describing what the environment is supposed to do, what its
-% mandatory and optional arguments are, and so forth.
+% \DescribeEnv{degree}
+% This environment\ldots
 %
 % \StopEventually{}
 %
 % \section{Implementation}
 %
-% \begin{macro}{\specialstyle}
-% The |\specialstyle| macro is used to style text in the following manner:
-% \begin{minipage}{1.0\textwidth}
-%   \centering
-%   |\specialstyle|\marg{text}
-% \end{minipage}
-% which, with the argument \meta{Hello, world!} results in \specialstyle{Hello,
-% world!}.
+% \begin{macro}{pagestyle}
+% An empty page style works best for a r\'esum\'e.
 %    \begin{macrocode}
-\newcommand\specialstyle[1]{\underline{\textsl{#1}}}
+\pagestyle{empty}
 %    \end{macrocode}
 % \end{macro}
 %
-% \begin{environment}{dummyEnv}
-% This is a dummy environment.  If it did anything, we'd describe its
-% implementation here.
+% \begin{macro}{\parindent}
+% Turn off indentation. (Note that some macros may carry |\noindent| in their
+% definitions out of a belt-and-suspenders level of caution.)
 %    \begin{macrocode}
-\newenvironment{dummyEnv}{%
-}{%
+\setlength{\parindent}{0pt}
 %    \end{macrocode}
-% \changes{v1.0a}{2004/11/05}{Added a spurious change log entry to
-%   show what a change \emph{within} an environment definition looks
-%   like.}
-% Don't use |%| to introduce a code comment within a |macrocode|
-% environment.  Instead, you should typeset all of your comments with
-% \LaTeX---doing so gives much prettier results.  For comments within a
-% macro/environment body, just do an |\end{macrocode}|, include some
-% commentary, and do another |\begin{macrocode}|.  It's that simple.
+% \end{macro}
+%
+% \begin{macro}{enumitem}
+% \begin{macro}{\labelitemii}
+% Use the \pkg{enumitem} package for inline lists; change |\labelitemii| to
+% something better-suited to inline lists.
+%
+% I tried |\setlist{nosep}| at first, but I think lists look better with
+% \emph{some} separation---just a little.
 %    \begin{macrocode}
+\usepackage[%
+  inline,
+]{enumitem}
+\setlist{%
+  topsep=0.2ex,
+  itemsep=0.1ex,
+}
+\renewcommand\labelitemii{\bfseries{\textperiodcentered}}
+%    \end{macrocode}
+% \end{macro}
+% \end{macro}
+%
+% \begin{macro}{xcolor}
+% Use the \pkg{xcolor} package and define a couple colors.
+%    \begin{macrocode}
+\usepackage{xcolor}
+\definecolor{darkblue}{HTML}{00008B}
+\definecolor{deeppurple}{HTML}{100060}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{hyperref}
+% Use the \pkg{hyperref} package with color links.
+%    \begin{macrocode}
+\usepackage[%
+  colorlinks=true,
+  urlcolor=darkblue,
+]{hyperref}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\name}
+% \begin{macro}{\namestyle}
+% Typeset ``\meta{your name} - R\'esum\'e'' at the top of the file in
+% |\namestyle| font.
+%    \begin{macrocode}
+\newcommand\namestyle[1]{\textbf{\huge #1}}
+\newcommand\name[1]{%
+  \noindent%
+  \namestyle{#1 -- R\'esum\'e}%
+  \par%
+  \vspace*{-0.33\baselineskip}%
+  \noindent\rule{\textwidth}{1pt}%
+  \smallskip%
+  \ignorespacesafterend%
+}
+%    \end{macrocode}
+% \end{macro}
+% \end{macro}
+%
+% \begin{macro}{\contactfield}
+% \begin{macro}{\address}
+% \begin{macro}{\phone}
+% \begin{macro}{\email}
+% \begin{macro}{\linkedin}
+% \begin{macro}{\github}
+% \begin{macro}{\website}
+% |\contactfield| is a generic way of including a labeled for of contact
+% information. Pre-made macros using |\contactfield| are provided for your
+% address, phone number, email, website, GitHub, and LinkedIn, but if you're an
+% Instagram influencer \LaTeX{}ing your r\'esum\'e or something like that, feel
+% free to create your own macro for that!
+%    \begin{macrocode}
+\usepackage{pbox}
+\newcommand\contactfield[2]{%
+  \parbox[t]{6em}{\textbf{#1}}%
+  \pbox[t]{\textwidth}{#2}%
+  \par%
+  \smallskip%
+}
+\newcommand\address[1]{\contactfield{Address}{#1}}
+\newcommand\phone[1]{\contactfield{Phone}{#1}}
+\newcommand\email[1]{%
+  \contactfield{Email}{\href{mailto:#1}{\texttt{\detokenize{#1}}}}%
+}
+\newcommand\linkedin[1]{%
+  \contactfield{LinkedIn}{\href{https://www.linkedin.com/in/#1/}{#1}}%
+}
+\newcommand\github[1]{%
+  \contactfield{GitHub}{\href{https://github.com/#1}{#1}}%
+}
+\newcommand\website[1]{%
+  \contactfield{Website}{\url{#1}}%
+}
+%    \end{macrocode}
+% \end{macro}
+% \end{macro}
+% \end{macro}
+% \end{macro}
+% \end{macro}
+% \end{macro}
+% \end{macro}
+%
+% \begin{environment}{contactinfo}
+% Place |\contactfield| (phone, email, etc.) info here.
+%    \begin{macrocode}
+\usepackage{multicol}
+\newenvironment{contactinfo}
+{%
+  \begin{minipage}[t]{\textwidth}
+    \begin{multicols}{2}
+}
+{%
+    \end{multicols}
+  \end{minipage}
+}
+%    \end{macrocode}
+% \end{environment}
+%
+% \begin{macro}{\sect}
+% \begin{macro}{\subsect}
+% \sout{Redefinitions of \texttt{\textbackslash{}section} and
+% \texttt{\textbackslash{}subsection} macros. (Future versions
+% may rely on \pkg{secsty}, \pkg{titlesec}, or a similar section-styling
+% package.)}
+%
+% Actually, this is kind of dumb, and I should just call these |\sect| and
+% |\subsect| for now.
+%    \begin{macrocode}
+\newcommand\sect[1]{%
+  \par%
+  \bigskip%
+  % \textbf{\large #1}%
+  \textbf{\Large #1}%
+  \par%
+  \medskip%
+  \ignorespacesafterend%
+}
+\newcommand\subsect[1]{%
+  \par%
+  % \medskip%
+  % \textbf{#1}%
+  \textbf{\large #1}%
+  \par%
+  \smallskip%
+  \ignorespacesafterend%
+}
+%    \end{macrocode}
+% \end{macro}
+% \end{macro}
+%
+% \begin{macro}{\setdatewidth}
+% \begin{macro}{\datewidth}
+% \begin{macro}{\descriptionwidth}
+% Use |\setdatewidth|\marg{length} so that
+%   \[ | \datewidth| + |\descriptionwidth| = |\textwidth|. \]
+%
+% See
+% \href{https://tex.stackexchange.com/questions/149045/how-to-calculate-a-new-length}{tex.stackexchange.com: How to calculate a new length?}\footnote{specifically \url{https://tex.stackexchange.com/a/149046}}
+% if you're confused about |\dimexpr|.
+% better.
+%    \begin{macrocode}
+\newlength{\datewidth}
+\newlength{\descriptionwidth}
+\newcommand\setdatewidth[1]{%
+  % update datewidth & descriptionwidth together
+  \setlength{\datewidth}{#1}
+  \setlength{\descriptionwidth}{\dimexpr(1\textwidth-1\datewidth)\relax}
+}
+\setdatewidth{7em}
+%    \end{macrocode}
+% \end{macro}
+% \end{macro}
+% \end{macro}
+%
+% \begin{macro}{\datestyle}
+% \begin{macro}{\daterangeseparator}
+% \begin{macro}{\degreeinstitutionseparator}
+% \begin{macro}{\jobtitlecompanyseparator}
+% \begin{macro}{\jobtitle}
+% \begin{macro}{\institution}
+% \begin{macro}{\company}
+%
+%    \begin{macrocode}
+\newcommand\datestyle[1]{\textsl{#1}}
+\newcommand\daterangeseparator{\ to\\}
+\newcommand\degreeinstitutionseparator{\ from\ }
+\newcommand\jobtitlecompanyseparator{\ at\ }
+\newcommand\degreename[1]{\textit{#1}}
+\newcommand\jobtitle[1]{\textit{#1}}
+\newcommand\institution[1]{#1}
+\newcommand\company[1]{#1}
+%    \end{macrocode}
+% \end{macro}
+% \end{macro}
+% \end{macro}
+% \end{macro}
+% \end{macro}
+% \end{macro}
+% \end{macro}
+%
+% \begin{environment}{degree}
+% \begin{verse}
+%   |\begin{degree}|\marg{completion date}\marg{degree name}\marg{institution} \\
+%     \hspace{1em}\meta{optional description} \\
+%     \hspace{1em}\texttt{\vdots} \\
+%   |\end{degree}|
+% \end{verse}
+%    \begin{macrocode}
+\newenvironment{degree}[3]
+{%
+  \noindent%
+  \begin{minipage}[t]{\datewidth}
+    \datestyle{#1}%
+  \end{minipage}%
+  \begin{minipage}[t]{\descriptionwidth}
+    \degreename{#2}\degreeinstitutionseparator\institution{#3}%
+    \par%
+    \smallskip%
+}
+{%
+  \end{minipage}%
+  \bigskip%
+  \ignorespacesafterend%
+}
+%    \end{macrocode}
+% \end{environment}
+%
+% \begin{environment}{job}
+% \begin{verse}
+%   |\begin{job}|\marg{start date}\marg{end date}\marg{title}\marg{company} \\
+%     \hspace{1em}\meta{optional description} \\
+%     \hspace{1em}\texttt{\vdots} \\
+%   |\end{job}|
+% \end{verse}
+%    \begin{macrocode}
+\newenvironment{job}[4]
+{%
+  \noindent%
+  \begin{minipage}[t]{\datewidth}
+    \raggedright%
+    \datestyle{#1\daterangeseparator#2}
+  \end{minipage}%
+  \begin{minipage}[t]{\descriptionwidth}
+    \jobtitle{#3}\jobtitlecompanyseparator\company{#4}%
+    \par%
+    \smallskip%
+}
+{%
+  \end{minipage}%
+  \par%
+  \bigskip%
+  \ignorespacesafterend%
+}
+%    \end{macrocode}
+% \end{environment}
+%
+% \begin{environment}{multiposition}
+% \begin{verse}
+%   |\begin{multiposition}|\marg{company} \\
+%     \hspace{1em}|\begin{position} ... \end{position}| \\
+%     \hspace{1em}\texttt{\vdots} \\
+%   |\end{multiposition}|
+% \end{verse}
+%    \begin{macrocode}
+\newenvironment{multiposition}[1]
+{%
+  \noindent%
+  \begin{minipage}[t]{\datewidth}
+    \raggedright%
+    \phantom{.}
+  \end{minipage}%
+  \begin{minipage}[t]{\descriptionwidth}
+    \company{#1}%
+  \end{minipage}%
+  \par%
+  \smallskip%
+}
+{%
+  \medskip%
+  \ignorespacesafterend%
+}
+%    \end{macrocode}
+% \end{environment}
+%
+% \begin{environment}{position}
+% \begin{verse}
+%   |\begin{position}|\marg{start date}\marg{end date}\marg{title} \\
+%     \hspace{1em}\meta{optional description} \\
+%     \hspace{1em}\texttt{\vdots} \\
+%   |\end{position}|
+% \end{verse}
+%    \begin{macrocode}
+\newenvironment{position}[3]
+{%
+  \noindent%
+  \begin{minipage}[t]{\datewidth}
+    \raggedright%
+    \datestyle{#1\daterangeseparator#2}
+  \end{minipage}%
+  \begin{minipage}[t]{\descriptionwidth}
+    \jobtitle{#3}%
+    \par%
+    \smallskip%
+}
+{%
+  \end{minipage}%
+  \par%
+  \medskip%
+  \ignorespacesafterend%
 }
 %    \end{macrocode}
 % \end{environment}
