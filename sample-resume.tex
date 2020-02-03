@@ -1,0 +1,100 @@
+\documentclass[11pt,oneside,letterpaper]{article}
+
+\input{./yart.tex}
+
+\usepackage[%
+  letterpaper,
+  hmargin=1in,
+  vmargin=1.2in,
+  top=0.75in,
+]{geometry}
+
+\usepackage{amsmath,amssymb}
+
+\begin{document}
+\name{Joe Bruin}
+
+\begin{contactinfo}
+  \address{1919 Westwood Blvd. \\ Los Angeles, CA 90024}
+  \phone{%
+    \begin{array}[t]{@{}c@{\,}c@{}c@{}c@{}c@{}c@{}c@{}c@{}c@{}}
+      \text{(310)}&\text{B}&\text{E}&\text{A}&\text{T}&\text{-}&
+        \text{U}&\text{S}&\text{C} \\
+                  &2&3&2&8&&8&7&2
+    \end{array}%
+  }
+  % a simple phone number like
+  % %% \phone{(310)\,232-8872}
+  % would suffice
+  \email{joe@joebruin.com}
+  \linkedin{joebruin}
+  \github{joebruin}
+  \website{https://joebruin.com}
+\end{contactinfo}
+
+\sect{Employment History}
+
+\begin{multiposition}{Ursus Industries}
+  \begin{position}{Apr 2019}{present}{Senior Associate}
+    \begin{itemize}
+      \item Coordinated team responsible for salmon catching (increased yield
+      by 5\% in 2019)
+      \item Streamlined den mapping strategies for winter 2019--20
+    \end{itemize}
+  \end{position}
+  \begin{position}{Jul 2017}{Apr 2019}{Junior Associate}
+    \begin{itemize}
+      \item Top salmon catcher in division for 2017 and 2018
+    \end{itemize}
+  \end{position}
+\end{multiposition}
+
+\begin{job}{Jun 2016}{Sep 2016}{Intern}{JLB Credit}
+  \begin{itemize}
+    \item Managed inter- and intra-office communication
+    \item Facilitated consumables-based productivity boosts
+  \end{itemize}
+\end{job}
+
+\sect{Education}
+
+\begin{degree}{Spring 2019}{Masters of Bear Administration}{UCLA Anderson
+    School of Management}
+\end{degree}
+
+\begin{degree}{Spring 2017}{Bachelor of Arts in Bear Studies}{UCLA}
+  \begin{itemize}
+    \item GPA: 3.919 (\textit{Ursa cum laude})
+  \end{itemize}
+\end{degree}
+
+\sect{Skills}
+
+\subsect{Programming Languages}
+\begin{minipage}[t]{1.0\textwidth}
+  \begin{multicols}{2}
+    \begin{itemize}
+      \item Lisp
+      \item C
+      \item Python
+      \item JavaScript
+    \end{itemize}
+  \end{multicols}
+\end{minipage}
+
+
+\subsect{Additional Skills}
+\begin{itemize}
+  \item Salmon fishing
+\end{itemize}
+
+
+\sect{References}
+John Wooden
+
+\end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "sample-resume"
+%%% End:
